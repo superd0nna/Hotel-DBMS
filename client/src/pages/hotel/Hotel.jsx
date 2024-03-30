@@ -1,8 +1,11 @@
 import React from 'react'
+import ViewHotel from '../../components/viewHotel/ViewHotel'
 
 const Hotel = () => {
   return (
-    <div>Hotel</div>
+    <div>
+        <ViewHotel/>
+    </div>
   )
 }
 
