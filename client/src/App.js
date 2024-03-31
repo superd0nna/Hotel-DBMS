@@ -9,6 +9,8 @@ import './../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Home from "./pages/home/Home";
 import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
+import Booking from "./pages/booking/Booking";
+import Register from "./pages/register/Register";
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
       <Route path="/" element={<Home/>}/>
       <Route path="/hotels" element={<List/>}></Route>
       <Route path="/hotels/:id" element={<Hotel/>}/>
+      <Route path="/hotels/booking" element={<Booking/>}/>
+      <Route path="/hotels/register" element={<Register/>}/>
     </Routes>
     </BrowserRouter>
   )

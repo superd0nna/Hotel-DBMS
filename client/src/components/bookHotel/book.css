@@ -1,0 +1,16 @@
+.bookContainer {
+    background-color: whitesmoke;
+    width: 100%;
+    max-width: 1024px;
+    margin: 2em 0px 100px 0px;
+    display: flex;
+    padding: 1.5em;
+}
+
+.detailDesc {
+    font-size: 18px;
+}
+
+.detailInput>input {
+    width: 90%;
+}

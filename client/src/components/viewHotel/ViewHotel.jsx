@@ -7,11 +7,14 @@ import { faCircleArrowLeft, faCircleArrowRight, faCircleXmark, faLocationDot } f
 import Button from 'react-bootstrap/Button';
 import MailList from '../mailList/MailList'
 import Footer2 from '../footer2/Footer2'
+import { useNavigate } from "react-router-dom";
 
 
 const ViewHotel = () => {
     const [slideNum, setSlideNum] = useState(0);
     const [open, setOpen] = useState(false);
+    let navigate = useNavigate(); 
+
 
     // Temporary until we can fetch pictures from the DB
     const photos = [
@@ -27,6 +30,11 @@ const ViewHotel = () => {
         setSlideNum(i);
         setOpen(true);
     };
+
+    const routeChange = () =>{ 
+        let path = `/hotels/booking`; 
+        navigate(path);
+      }
 
     const handleMove = (direction) => {
         let newSlideNum;
@@ -54,7 +62,7 @@ const ViewHotel = () => {
                 </div>
             }
             <div className="hotelWrapper">
-                <Button variant='success' className='bookNow'>Reserve or Book Now!</Button>
+                <Button onClick={routeChange} variant='success' className='bookNow'>Reserve or Book Now!</Button>
                 <h1 className='hotelTitle'>Grand Hotel</h1>
                 <div className="hotelAddress">
                     <FontAwesomeIcon icon={faLocationDot}/>
@@ -84,7 +92,7 @@ const ViewHotel = () => {
                         <h1>Perfect for a 9-night stay!</h1>
                         <span>Situated in the best rated area in Niagara Falls, this hotel has an excellent location score of 8.9</span>
                         <h2><b>$945</b> (9 nights)</h2>
-                        <Button variant='success'>Reserve or Book Now!</Button>
+                        <Button onClick={routeChange} variant='success'>Reserve or Book Now!</Button>
                     </div>           
                 </div>
             </div>
