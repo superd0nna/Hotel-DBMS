@@ -77,7 +77,6 @@ const Header1 = ({type}) => {
                     <p className="headerDescription">
                         Get rewarded for your travels - unlock instant savings of 10% or more with a free eHotel account.
                     </p>
-                    <Button size='md' variant="light" onClick={routeChange}>Register Now</Button>{' '}
                     <div className="headerSearch">
                         <div className="headerSearchItem">
                             <FontAwesomeIcon icon={faBed} className='headerIcon'/>
