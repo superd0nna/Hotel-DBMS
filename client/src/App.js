@@ -11,6 +11,7 @@ import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
 import Booking from "./pages/booking/Booking";
 import Register from "./pages/register/Register";
+import BookingtoRent from "./pages/booktorent/BookingtoRent";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
       <Route path="/hotels/:id" element={<Hotel/>}/>
       <Route path="/hotels/booking" element={<Booking/>}/>
       <Route path="/hotels/register" element={<Register/>}/>
+      <Route path="/hotels/booking-to-renting" element={<BookingtoRent/>}/>
     </Routes>
     </BrowserRouter>
   )

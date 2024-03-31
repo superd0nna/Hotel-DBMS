@@ -13,7 +13,7 @@ import {
   MDBListGroupItem,
 } from "mdb-react-ui-kit";
 import Button from 'react-bootstrap/Button';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import './payment.css'
@@ -23,6 +23,7 @@ import {format} from "date-fns"
 export default function Payment() {
   let toHome = useNavigate()
   const [openDate, setOpenDate] = useState(false)
+  const [userType, setUserType] = useState("");
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -30,6 +31,11 @@ export default function Payment() {
       key: 'selection'
     }
   ]);
+
+  useEffect(()=>{
+    let user = localStorage.getItem("customerType");
+    setUserType(user);
+  }, [])
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -133,16 +139,20 @@ const handleSubmit = (e) => {
                 minDate={new Date()}
               />}
 
+              {userType === 'Customer' && 
+             
               <MDBRadio
                 name="flexRadioDefault"
                 id="booked"
                 label="Booking"
                 checked/>
-
+              }
+              {userType === 'Employee' && 
               <MDBRadio
                 name="flexRadioDefault"
                 id="rented"
                 label="Renting"/>    
+            }
               <hr className="my-4" />
 
               <h5 className="mb-4">Payment</h5>

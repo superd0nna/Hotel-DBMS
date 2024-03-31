@@ -1,0 +1,20 @@
+{
+    "customer":[
+        {
+            "id": "1",
+            "firstName": "Emily",
+            "middleName": "Timbits",
+            "lastName": "im tired",
+            "start-date": "00-00-00",
+            "end-date": "11-11-21"
+        },
+        {
+            "id": "2",
+            "firstName": "Emily",
+            "middleName": "Timbits",
+            "lastName": "im tired",
+            "start-date": "00-00-00",
+            "end-date": "11-11-21"
+        }
+    ]
+}

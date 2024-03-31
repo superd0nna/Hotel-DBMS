@@ -12,8 +12,8 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useFetcher, useNavigate } from "react-router-dom";
+import { useState, useEffect} from 'react';
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -23,6 +23,22 @@ function ResponsiveAppBar() {
     const [isEmployee, setIsEmployee] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        let avatar;
+        let isEmployee;
+        let currentUser = localStorage.getItem("customerType")
+        setUserMode(currentUser);
+        if (currentUser === 'Customer') {
+            isEmployee = false;
+            avatar = '0'
+        } else {
+            isEmployee = true;
+            avatar = '1'
+        }
+        setIsEmployee(isEmployee);
+        setAvatarPic(avatar);
+    }, [])
+    
     const avatar = [
         {src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Eo_circle_orange_letter-c.svg/640px-Eo_circle_orange_letter-c.svg.png"},
         {src: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Eo_circle_orange_letter-e.svg/2048px-Eo_circle_orange_letter-e.svg.png"}
@@ -60,6 +76,8 @@ function ResponsiveAppBar() {
         setIsEmployee(isEmployee)
         setAvatarPic(avatar);
         navigate(`/`)
+
+        localStorage.setItem("customerType", userMode)
     }
 
     return (
@@ -120,7 +138,12 @@ function ResponsiveAppBar() {
 
             { isEmployee && <div onClick={()=> navigate(`/hotels/register`)}>
                 <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Add Users</Typography>
+                    <Typography textAlign="center">Edit Database</Typography>
+                </MenuItem>
+            </div>}
+            { isEmployee && <div onClick={()=> navigate(`/hotels/booking-to-renting`)}>
+                <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Booking to Renting</Typography>
                 </MenuItem>
             </div>}
             <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
