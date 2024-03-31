@@ -1,13 +1,30 @@
-.homeContainer {
-    margin-top: 50px;
+.center-component {
+    width: 100vw;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 30px;
+    margin-top: 2em;
 }
 
-.homeTitle {
-    width: 1024px;
-    font-size: 24px;
+.table-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.row {
+    margin-top: 1.5em;
+}
+
+.addUser>input{
+    width: fit-content;   
+    height: 40px;
+    margin-right: 12px;
     margin-top: 1em;
+    width: 150px;
+
+}
+
+.action-btn {
+    cursor: pointer;
 }

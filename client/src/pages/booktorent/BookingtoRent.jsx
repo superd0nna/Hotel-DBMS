@@ -1,11 +1,12 @@
 import React from 'react'
 import ResponsiveAppBar from '../../components/nav/navbar'
+import BtoR from '../../components/bToR/BtoR'
 
 const BookingtoRent = () => {
   return (
     <div>
         <ResponsiveAppBar/>
-        booking to renting
+        <BtoR/>
     </div>
   )
 }

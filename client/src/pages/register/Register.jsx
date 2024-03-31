@@ -1,6 +1,7 @@
 import React from 'react'
 import ResponsiveAppBar from '../../components/nav/navbar'
 import EditData from '../../components/editData/EditData'
+import Footer2 from '../../components/footer2/Footer2'
 import './register.css'
 
 const Register = () => {
@@ -10,6 +11,7 @@ const Register = () => {
       <div className="tables">
         <EditData/>
       </div>
+      <Footer2/>
     </div>
   )
 }
