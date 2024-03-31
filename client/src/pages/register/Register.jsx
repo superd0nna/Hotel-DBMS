@@ -1,8 +1,11 @@
 import React from 'react'
+import ResponsiveAppBar from '../../components/nav/navbar'
 
 const Register = () => {
   return (
-    <div>Register Page</div>
+    <div>
+      <ResponsiveAppBar/>
+    </div>
   )
 }
 

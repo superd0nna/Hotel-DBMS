@@ -13,14 +13,20 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from "react-router-dom";
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import { useState } from 'react';
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [userMode, setUserMode] = React.useState('Customer')
+    const [avatarPic, setAvatarPic] = useState(0);
+    const [isEmployee, setIsEmployee] = useState(false);
     const navigate = useNavigate();
 
+    const avatar = [
+        {src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Eo_circle_orange_letter-c.svg/640px-Eo_circle_orange_letter-c.svg.png"},
+        {src: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Eo_circle_orange_letter-e.svg/2048px-Eo_circle_orange_letter-e.svg.png"}
+    ]
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     
@@ -37,64 +43,86 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
+    const handleModeChange = (e) => {
+        let userMode;
+        let isEmployee;
+        let avatar;
+        if (e === 'Customer') {
+            userMode = 'Customer';
+            isEmployee = false;
+            avatar = '0'
+        } else {
+            userMode = 'Employee';
+            isEmployee = true;
+            avatar = '1'
+        }
+        setUserMode(userMode);
+        setIsEmployee(isEmployee)
+        setAvatarPic(avatar);
+        navigate(`/`)
+    }
+
     return (
         <AppBar position="static" className='bar'>
         <Container maxWidth="xl">
             <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}/>
-            <div onClick={()=>{
-                navigate('/')
-            }}>
-            <Typography
-                variant="h6"
-                noWrap
-                component="a"
-                href="#app-bar-with-responsive-menu"
-                sx={{
-                mr: 2,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-                }}
-            >
-                eHotel
-            </Typography>
+            <div onClick={()=>{navigate('/')}}>
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="a"
+                    href="#app-bar-with-responsive-menu"
+                    sx={{
+                    mr: 2,
+                    display: { xs: 'none', md: 'flex' },
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    letterSpacing: '.3rem',
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    }} >
+                    eHotel
+                </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-                >
-                <MenuIcon />
-                </IconButton>
-                <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                    display: { xs: 'block', md: 'none' },
-                }}
-                >
-                </Menu>
-            </Box>
+                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                    >
+                    <MenuIcon />
+                    </IconButton>
+                    <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{
+                        display: { xs: 'block', md: 'none' },
+                    }}
+                    >
+                    </Menu>
+                </Box>
             </div>
+
+            { isEmployee && <div onClick={()=> navigate(`/hotels/register`)}>
+                <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Add Users</Typography>
+                </MenuItem>
+            </div>}
             <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
             <Typography
                 variant="h5"
@@ -120,7 +148,7 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    <Avatar alt="Remy Sharp" src={avatar[avatarPic].src} />
                 </IconButton>
                 </Tooltip>
                 <Menu
@@ -139,11 +167,16 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
                 >
-                {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                        <div onClick={() =>handleModeChange('Customer')}>
+                            <Typography textAlign="center">Customer</Typography>
+                        </div>
                     </MenuItem>
-                ))}
+                    <MenuItem onClick={handleCloseUserMenu}>
+                        <div onClick={() =>handleModeChange('Employee')}>
+                            <Typography textAlign="center">Employee</Typography>
+                        </div>
+                    </MenuItem>
                 </Menu>
             </Box>
             </Toolbar>
