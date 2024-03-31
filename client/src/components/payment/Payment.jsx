@@ -9,16 +9,27 @@ import {
   MDBInput,
   MDBRow,
   MDBRadio,
-  MDBBtn,
   MDBListGroup,
   MDBListGroupItem,
 } from "mdb-react-ui-kit";
 import Button from 'react-bootstrap/Button';
 import { useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import './payment.css'
+import { DateRange } from 'react-date-range';
+import {format} from "date-fns"
 
 export default function Payment() {
   let toHome = useNavigate()
+  const [openDate, setOpenDate] = useState(false)
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection'
+    }
+  ]);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -109,29 +120,32 @@ const handleSubmit = (e) => {
                 onChange={handleChange}
                 placeholder="613-123-4567"
               />
+
+              <MDBRow>
+                <span onClick={() => setOpenDate(!openDate)} className='headerSearchText'>{`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(date[0].endDate, "MM/dd/yyyy")} `}</span>
+                <span className="mb-3 mt-1">Select a start & end date</span>
+              </MDBRow>
+              {openDate && <DateRange
+                editableDateInputs={true}
+                onChange={item => setDate([item.selection])}
+                moveRangeOnFirstSelection={false}
+                ranges={date}
+                minDate={new Date()}
+              />}
+
+              <MDBRadio
+                name="flexRadioDefault"
+                id="booked"
+                label="Booking"
+                checked/>
+
+              <MDBRadio
+                name="flexRadioDefault"
+                id="rented"
+                label="Renting"/>    
               <hr className="my-4" />
 
               <h5 className="mb-4">Payment</h5>
-
-              <MDBRadio
-                name="flexRadioDefault"
-                id="flexRadioDefault1"
-                label="Credit card"
-                checked
-              />
-
-              <MDBRadio
-                name="flexRadioDefault"
-                id="flexRadioDefault2"
-                label="Debit card"
-              />
-
-              <MDBRadio
-                name="flexRadioDefault"
-                id="flexRadioDefault2"
-                label="Paypal"
-                wrapperClass="mb-4"
-              />
 
               <MDBRow>
                 <MDBCol>
