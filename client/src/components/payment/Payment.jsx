@@ -19,10 +19,14 @@ import { useNavigate } from "react-router-dom";
 import './payment.css'
 import { DateRange } from 'react-date-range';
 import {format} from "date-fns"
+import { useParams } from 'react-router-dom';
 
-export default function Payment() {
+const Payment = () => {
+  // let { room_id } = useParams();
+  const { room_id } = useParams();
+  const roomId = room_id ? room_id : '';
   let toHome = useNavigate()
-  const [openDate, setOpenDate] = useState(false)
+  const [openDate, setOpenDate] = useState(false);
   const [userType, setUserType] = useState("");
   const [date, setDate] = useState([
     {
@@ -32,12 +36,53 @@ export default function Payment() {
     }
   ]);
 
+  const onSubmitForm = async (e) => {
+    const startDate = date[0].startDate;
+    const endDate = date[0].endDate;
+    const startDateFormatted = startDate ? format(startDate, 'yyyy-MM-dd') : '';
+    const endDateFormatted = endDate ? format(endDate, 'yyyy-MM-dd') : '';
+    const body = {
+      roomID: formData.roomID,
+      firstName: formData.firstName,
+      middleName: formData.middleName,
+      lastName: formData.lastName,
+      address: formData.address,
+      phone: formData.phone,
+      nameOnCard: formData.nameOnCard,
+      creditCardNumber: formData.creditCardNumber,
+      expiration: formData.expiration,
+      cvv: formData.cvv,
+      startDate: startDateFormatted,
+      endDate: endDateFormatted
+    };
+
+    try {
+      // Send data to the server
+      const response = await fetch("http://localhost:4000/addReservation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+
+      if (response.ok) {
+        alert('Payment submitted successfully');
+        toHome(`/`);
+      } else {
+        alert('Failed to submit payment');
+      }
+    } catch (error) {
+      console.error('Error submitting payment:', error);
+      alert('An error occurred while submitting payment');
+    }
+  };
+
   useEffect(()=>{
     let user = localStorage.getItem("customerType");
     setUserType(user);
   }, [])
 
   const [formData, setFormData] = useState({
+    roomID: '',
     firstName: '',
     middleName: '',
     lastName: '',
@@ -48,6 +93,7 @@ export default function Payment() {
     expiration: '',
     cvv: ''
   });
+
 
 const handleChange = (e) => {
   const { id, value } = e.target;
@@ -80,6 +126,7 @@ const handleSubmit = (e) => {
   if (errors.length > 0) {
     alert(errors.join('\n'));
   } else {
+    onSubmitForm();
     alert('Payment submitted successfully');
     toHome(`/`);
   }
@@ -94,6 +141,15 @@ const handleSubmit = (e) => {
               <h5 className="mb-0">Please enter your details</h5>
             </MDBCardHeader>
             <MDBCardBody>
+              <MDBInput
+                wrapperClass="mb-4"
+                label="Room ID"
+                id="roomID"
+                type="text"
+                required
+                value={formData.roomID}
+                onChange={handleChange}
+              />
               <MDBRow className="mb-4">
                 <MDBCol>
                   <MDBInput placeholder="John" label="First name" id="firstName" type="text" required onChange={handleChange} value={formData.firstName}/>
@@ -120,7 +176,7 @@ const handleSubmit = (e) => {
                 wrapperClass="mb-4"
                 label="Phone Number"
                 id="phone"
-                type="number"
+                type="text"
                 required
                 value={formData.phone}
                 onChange={handleChange}
@@ -252,3 +308,4 @@ const handleSubmit = (e) => {
     </MDBContainer>
   );
 }
+export default Payment;

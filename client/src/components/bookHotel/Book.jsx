@@ -4,11 +4,12 @@ import ResponsiveAppBar from '../nav/navbar'
 import Payment from '../payment/Payment'
 import Footer2 from '../footer2/Footer2'
 
-const Book = () => {
+const Book = ({ roomId }) => {
+
   return (
     <div>
         <ResponsiveAppBar/>
-        <Payment/>
+        <Payment room_id={roomId} />
         <Footer2/>
     </div>
   )
